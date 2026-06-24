@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+
+
 import {
   FaCloudSun,
   FaMapMarkedAlt,
@@ -79,23 +81,23 @@ export default function Sidebar() {
   return (
     <aside
       className={`
-      glass
-      min-h-screen
+  glass
+  min-h-screen
 
-      flex
-      flex-col
+  flex
+  flex-col
 
-      transition-all
-      duration-300
+  transition-all
+  duration-300
 
-      ${collapsed
-          ? "w-24"
-          : "w-72"}
+  ${collapsed
+          ? "w-20"
+          : "w-20 md:w-72"
+        }
 
-      p-4
-      `}
+  p-3
+  `}
     >
-
       {/* LOGO */}
 
       <button
@@ -141,26 +143,14 @@ export default function Sidebar() {
         </div>
 
         {!collapsed && (
-          <div>
-
-            <h1
-              className="
-              text-2xl
-              font-bold
-              "
-            >
+          <div className="hidden md:block">
+            <h1 className="text-2xl font-bold">
               Klima
             </h1>
 
-            <p
-              className="
-              text-xs
-              text-slate-400
-              "
-            >
+            <p className="text-xs text-slate-400">
               Weather Weather Lang
             </p>
-
           </div>
         )}
 
@@ -213,8 +203,11 @@ export default function Sidebar() {
                 {item.icon}
               </span>
 
-              {!collapsed &&
-                item.label}
+              {!collapsed && (
+                <span className="hidden md:block">
+                  {item.label}
+                </span>
+              )}
 
             </button>
 
@@ -225,13 +218,17 @@ export default function Sidebar() {
       {/* RECENT SEARCHES */}
 
       {!collapsed && (
-        <SidebarRecentSearches />
+        <div className="hidden md:block">
+          <SidebarRecentSearches />
+        </div>
       )}
 
       {/* WEATHER CARD */}
 
       {!collapsed && (
-        <SidebarWeatherCard />
+        <div className="hidden md:block">
+          <SidebarWeatherCard />
+        </div>
       )}
 
     </aside>

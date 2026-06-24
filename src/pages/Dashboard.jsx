@@ -57,7 +57,9 @@ export default function Dashboard() {
             <div className="relative z-10 flex min-h-screen">
 
                 {/* SIDEBAR (FIX MOBILE OVERFLOW BELOW) */}
+                
                 <Sidebar />
+                
 
                 {/* MAIN CONTENT */}
                 <div className="flex flex-col flex-1 min-w-0 pt-6">

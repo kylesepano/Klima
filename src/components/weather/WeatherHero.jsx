@@ -47,7 +47,7 @@ export default function WeatherHero() {
 
                 <p
                     className="
-          text-4xl
+          text-xl
           text-slate-300
           "
                 >
@@ -70,7 +70,7 @@ export default function WeatherHero() {
 
                 <h1
                     className="
-          text-6xl
+          text-xl
           font-bold
           mt-4
           "
@@ -116,7 +116,6 @@ export default function WeatherHero() {
                     </span>
 
                     <span>
-                        Wind{" "}
                         Wind {Math.round(weather.wind?.speed * 3.6)} km/h
                     </span>
                 </div>
