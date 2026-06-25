@@ -1,66 +1,45 @@
-import {
-    useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
-export default function SidebarRecentSearches({ setMobileMenuOpen, setActiveSection }) {
+export default function SidebarRecentSearches({
+  setMobileMenuOpen,
+  setActiveSection,
+}) {
+  const recentSearches = useWeatherStore((state) => state.recentSearches);
 
-    const recentSearches =
-        useWeatherStore(
-            (state) =>
-                state.recentSearches
-        );
+  const setLocation = useWeatherStore((state) => state.setLocation);
 
-    const setLocation =
-        useWeatherStore(
-            (state) =>
-                state.setLocation
-        );
+  if (!recentSearches || recentSearches.length === 0) return null;
 
-    if (
-        !recentSearches ||
-        recentSearches.length === 0
-    )
-        return null;
-
-    return (
-        <div
-            className="
+  return (
+    <div
+      className="
       mt-6
       "
-        >
-            <h3
-                className="
+    >
+      <h3
+        className="
         text-xs
         uppercase
         tracking-wider
         text-slate-400
         mb-3
         "
-            >
-                Recent Searches
-            </h3>
+      >
+        Recent Searches
+      </h3>
 
-            <div className="space-y-2">
-
-                {recentSearches.map(
-                    (
-                        city,
-                        index
-                    ) => (
-                        <button
-                            key={index}
-                            onClick={() => {
-                                setLocation(
-                                    city
-                                );
-                                if (window.innerWidth < 768) {
-                                    setMobileMenuOpen?.(false);
-                                }
-                                setActiveSection?.("dashboard");
-
-                            }
-                            }
-                            className="
+      <div className="space-y-2">
+        {recentSearches.map((city, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setLocation(city);
+              if (window.innerWidth < 768) {
+                setMobileMenuOpen?.(false);
+              }
+              setActiveSection?.("dashboard");
+            }}
+            className="
               w-full
               text-left
 
@@ -75,13 +54,11 @@ export default function SidebarRecentSearches({ setMobileMenuOpen, setActiveSect
 
               text-sm
               "
-                        >
-                            📍 {city.city}, {city.country}
-                        </button>
-                    )
-                )}
-
-            </div>
-        </div>
-    );
+          >
+            📍 {city.city}, {city.country}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }

@@ -1,36 +1,21 @@
-import {
-    useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
-import {
-    getLocalTime,
-    formatLocalTime,
-} from "../../utils/timezone";
+import { getLocalTime, formatLocalTime } from "../../utils/timezone";
 
 export default function WeatherHero() {
+  const weather = useWeatherStore((state) => state.weather);
 
-    const weather =
-        useWeatherStore(
-            (state) => state.weather
-        );
+  const location = useWeatherStore((state) => state.location);
 
-    const location =
-        useWeatherStore(
-            (state) => state.location
-        );
+  if (!weather || !location) return null;
 
-    if (!weather || !location)
-        return null;
+  const icon = weather.weather?.[0]?.icon;
 
-    const icon =
-        weather.weather?.[0]?.icon;
+  const localTime = getLocalTime(weather);
 
-    const localTime =
-        getLocalTime(weather);
-
-    return (
-        <div
-            className="
+  return (
+    <div
+      className="
       glass
       rounded-3xl
       p-6
@@ -39,111 +24,95 @@ export default function WeatherHero() {
       justify-between
       items-center
       "
-        >
+    >
+      {/* LEFT SIDE */}
 
-            {/* LEFT SIDE */}
-
-            <div>
-
-                <p
-                    className="
+      <div>
+        <p
+          className="
           text-xl
           text-slate-300
           "
-                >
-                    📍 {location.city},{" "}
-                    {location.country}
-                </p>
+        >
+          📍 {location.city}, {location.country}
+        </p>
 
-                <p
-                    className="
+        <p
+          className="
           text-xl
           text-slate-400
           mt-1
           "
-                >
-                    {localTime &&
-                        localTime.toDateString()}
-                    {" • "}
-                    {formatLocalTime(localTime)}
-                </p>
+        >
+          {localTime && localTime.toDateString()}
+          {" • "}
+          {formatLocalTime(localTime)}
+        </p>
 
-                <h1
-                    className="
+        <h1
+          className="
           text-xl
           font-bold
           mt-4
           "
-                >
-                    {Math.round(
-                        weather.main?.temp
-                    )}
-                    °C
-                </h1>
+        >
+          {Math.round(weather.main?.temp)}
+          °C
+        </h1>
 
-                <p
-                    className="
+        <p
+          className="
           text-xl
           mt-2
           text-slate-200
           "
-                >
-                    {weather.weather?.[0]?.main}
-                </p>
+        >
+          {weather.weather?.[0]?.main}
+        </p>
 
-                {/* METRICS */}
+        {/* METRICS */}
 
-                <div
-                    className="
+        <div
+          className="
           flex
           gap-6
           mt-4
           text-sm
           text-slate-300
           "
-                >
-                    <span>
-                        Feels like{" "}
-                        {Math.round(
-                            weather.main?.feels_like
-                        )}
-                        °C
-                    </span>
+        >
+          <span>
+            Feels like {Math.round(weather.main?.feels_like)}
+            °C
+          </span>
 
-                    <span>
-                        Humidity{" "}
-                        {weather.main?.humidity}%
-                    </span>
+          <span>Humidity {weather.main?.humidity}%</span>
 
-                    <span>
-                        Wind {Math.round(weather.wind?.speed * 3.6)} km/h
-                    </span>
-                </div>
+          <span>Wind {Math.round(weather.wind?.speed * 3.6)} km/h</span>
+        </div>
+      </div>
 
-            </div>
+      {/* RIGHT SIDE ICON */}
 
-            {/* RIGHT SIDE ICON */}
-
-            <div
-                className="
+      <div
+        className="
         flex
         items-center
         justify-center
         "
-            >
-                {icon && (
-                    <img
-                        className="
+      >
+        {icon && (
+          <img
+            className="
             w-40
             h-40
             drop-shadow-xl
             "
-                        src={`https://openweathermap.org/img/wn/${icon}@4x.png`}
-                        alt=""
-                    />
-                )}
-            </div>
-
-        </div>
-    );
+            src={`https://openweathermap.org/img/wn/${icon}@4x.png`}
+            alt=""
+          />
+        )}
+      </div>
+    </div>
+  );
 }

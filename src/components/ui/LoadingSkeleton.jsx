@@ -1,6 +1,4 @@
-export default function LoadingSkeleton({
-  height = "h-40",
-}) {
+export default function LoadingSkeleton({ height = "h-40" }) {
   return (
     <div
       className={`

@@ -1,87 +1,42 @@
-import {
-  searchCity,
-} from "../../api/weatherApi";
+import { searchCity } from "../../api/weatherApi";
 
-import {
-  useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
-import {
-  addRecentSearch,
-} from "../../utils/storage";
+import { addRecentSearch } from "../../utils/storage";
 
 import { Crosshair } from "lucide-react";
 
 export default function SearchBar() {
+  const query = useWeatherStore((state) => state.searchQuery);
 
-  const query =
-    useWeatherStore(
-      (state) =>
-        state.searchQuery
-    );
+  const setQuery = useWeatherStore((state) => state.setSearchQuery);
 
-  const setQuery =
-    useWeatherStore(
-      (state) =>
-        state.setSearchQuery
-    );
+  const setLocation = useWeatherStore((state) => state.setLocation);
 
-  const setLocation =
-    useWeatherStore(
-      (state) =>
-        state.setLocation
-    );
+  const searchResults = useWeatherStore((state) => state.searchResults);
 
-  const searchResults =
-    useWeatherStore(
-      (state) =>
-        state.searchResults
-    );
+  const setSearchResults = useWeatherStore((state) => state.setSearchResults);
 
-  const setSearchResults =
-    useWeatherStore(
-      (state) =>
-        state.setSearchResults
-    );
+  const setRecentSearches = useWeatherStore((state) => state.setRecentSearches);
 
-  const setRecentSearches =
-    useWeatherStore(
-      (state) =>
-        state.setRecentSearches
-    );
+  const handleInput = async (value) => {
+    setQuery(value);
 
-  const handleInput =
-    async (value) => {
+    if (value.trim().length < 2) {
+      setSearchResults([]);
+      return;
+    }
 
-      setQuery(value);
+    try {
+      const results = await searchCity(value);
 
-      if (
-        value.trim().length < 2
-      ) {
-        setSearchResults([]);
-        return;
-      }
-
-      try {
-
-        const results =
-          await searchCity(
-            value
-          );
-
-        setSearchResults(
-          results
-        );
-
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  const setSearchQuery = useWeatherStore(
-    (state) => state.setSearchQuery
-  );
+      setSearchResults(results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const setSearchQuery = useWeatherStore((state) => state.setSearchQuery);
   const selectCity = (city) => {
-
     const cityData = {
       city: city.name,
       country: city.country,
@@ -91,31 +46,22 @@ export default function SearchBar() {
 
     setLocation(cityData);
 
-    setSearchQuery(
-      `${city.name}, ${city.country}`
-    );
+    setSearchQuery(`${city.name}, ${city.country}`);
 
     setSearchResults([]);
 
     addRecentSearch(cityData);
     setRecentSearches(
-      JSON.parse(
-        localStorage.getItem("recentSearches") || "[]"
-      )
+      JSON.parse(localStorage.getItem("recentSearches") || "[]"),
     );
   };
 
   return (
     <div className="relative pl-6">
-
       <input
         type="text"
         value={query}
-        onChange={(e) =>
-          handleInput(
-            e.target.value
-          )
-        }
+        onChange={(e) => handleInput(e.target.value)}
         placeholder="Search city..."
         className="
           w-full
@@ -127,11 +73,9 @@ export default function SearchBar() {
         "
       />
 
-      {query.length > 0 &&
-        searchResults.length > 0 && (
-
-          <div
-            className="
+      {query.length > 0 && searchResults.length > 0 && (
+        <div
+          className="
               absolute
               top-full
               left-0
@@ -145,22 +89,12 @@ export default function SearchBar() {
 
               z-50
             "
-          >
-
-            {searchResults.map(
-              (
-                city,
-                index
-              ) => (
-                
-                <button
-                  key={index}
-                  onClick={() =>
-                    selectCity(
-                      city
-                    )
-                  }
-                  className="
+        >
+          {searchResults.map((city, index) => (
+            <button
+              key={index}
+              onClick={() => selectCity(city)}
+              className="
    
 
                     text-left
@@ -172,21 +106,15 @@ export default function SearchBar() {
 
                     transition
                   "
-                >
-                  {city.name}
-                  {city.state
-                    ? `, ${city.state}`
-                    : ""}
-                  {", "}
-                  {city.country}
-                </button>
-
-              )
-            )}
-
-          </div>
-
-        )}
+            >
+              {city.name}
+              {city.state ? `, ${city.state}` : ""}
+              {", "}
+              {city.country}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

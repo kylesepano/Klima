@@ -1,75 +1,39 @@
 import { useState } from "react";
 
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 
-import {
-  addRecentSearch,
-} from "../../utils/storage";
+import { addRecentSearch } from "../../utils/storage";
 
-import {
-  saveLocation,
-} from "../../utils/storage";
+import { saveLocation } from "../../utils/storage";
 import MapUpdater from "./MapUpdater";
 
-import {
-  useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
-import {
-  reverseGeocode,
-} from "../../api/weatherApi";
+import { reverseGeocode } from "../../api/weatherApi";
 
 import { useMap } from "react-leaflet";
 
 function LocationPicker() {
+  const setLocation = useWeatherStore((state) => state.setLocation);
 
-  const setLocation = useWeatherStore(
-    (state) => state.setLocation
-  );
+  const setSearchQuery = useWeatherStore((state) => state.setSearchQuery);
 
-  const setSearchQuery = useWeatherStore(
-    (state) => state.setSearchQuery
-  );
+  const setSavedLocations = useWeatherStore((state) => state.setSavedLocations);
 
-  const setSavedLocations = useWeatherStore(
-    (state) => state.setSavedLocations
-  );
-
-  const setRecentSearches =
-    useWeatherStore(
-      (state) => state.setRecentSearches
-    );
+  const setRecentSearches = useWeatherStore((state) => state.setRecentSearches);
 
   useMapEvents({
-
     click: async (event) => {
-
       const lat = event.latlng.lat;
       const lon = event.latlng.lng;
 
       try {
-
-        const place =
-          await reverseGeocode(
-            lat,
-            lon
-          );
+        const place = await reverseGeocode(lat, lon);
 
         const cityData = {
-          city:
-            place?.name ||
-            place?.state ||
-            place?.country ||
-            "Unknown",
+          city: place?.name || place?.state || place?.country || "Unknown",
 
-          country:
-            place?.country ||
-            "",
+          country: place?.country || "",
 
           lat,
           lon,
@@ -77,28 +41,19 @@ function LocationPicker() {
 
         setLocation(cityData);
 
-        const updatedSearches =
-          addRecentSearch(cityData);
+        const updatedSearches = addRecentSearch(cityData);
 
-        setRecentSearches(
-          updatedSearches
-        );
+        setRecentSearches(updatedSearches);
 
-        setSearchQuery(
-          cityData.city
-        );
+        setSearchQuery(cityData.city);
 
-        const updated =
-          saveLocation(cityData);
+        const updated = saveLocation(cityData);
 
         setSavedLocations(updated);
-
       } catch (error) {
         console.error(error);
       }
-
     },
-
   });
 
   return null;
@@ -108,31 +63,21 @@ function FlyToLocation({ location }) {
   const map = useMap();
 
   if (location?.lat && location?.lon) {
-    map.flyTo(
-      [location.lat, location.lon],
-      11,
-      { duration: 1.5 }
-    );
+    map.flyTo([location.lat, location.lon], 11, { duration: 1.5 });
   }
 
   return null;
 }
 
 export default function MapPanel() {
-  const location =
-    useWeatherStore(
-      (state) =>
-        state.location
-    );
+  const location = useWeatherStore((state) => state.location);
 
-  const [layer, setLayer] =
-    useState("clouds_new");
+  const [layer, setLayer] = useState("clouds_new");
 
-  const currentLocation =
-    location || {
-      lat: 14.5995,
-      lon: 120.9842,
-    };
+  const currentLocation = location || {
+    lat: 14.5995,
+    lon: 120.9842,
+  };
   const API_KEY = "3edd33eff0015eff70c207ad52a5cd29";
 
   return (
@@ -211,11 +156,8 @@ ${layer === "clouds_new"
         >
           <FlyToLocation location={location} />
 
-
           {/* Base Map */}
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
           {/* OpenWeather Overlay */}
           <TileLayer
@@ -230,9 +172,7 @@ ${layer === "clouds_new"
             ]}
           />
 
-          <MapUpdater
-            location={location}
-          />
+          <MapUpdater location={location} />
           <LocationPicker />
         </MapContainer>
       </div>

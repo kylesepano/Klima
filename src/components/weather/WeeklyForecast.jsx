@@ -1,73 +1,50 @@
-import {
-    useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
 export default function WeeklyForecast() {
+  const forecast = useWeatherStore((state) => state.forecast);
 
-    const forecast =
-        useWeatherStore(
-            (state) => state.forecast
-        );
+  if (!forecast) return null;
 
-    if (!forecast) return null;
+  // Group by day
+  const dailyMap = {};
 
-    // Group by day
-    const dailyMap = {};
+  forecast.list.forEach((item) => {
+    const date = new Date(item.dt * 1000).toDateString();
 
-    forecast.list.forEach(
-        (item) => {
+    if (!dailyMap[date]) {
+      dailyMap[date] = item;
+    }
+  });
 
-            const date =
-                new Date(
-                    item.dt * 1000
-                ).toDateString();
+  const days = Object.values(dailyMap).slice(0, 5);
 
-            if (!dailyMap[date]) {
-                dailyMap[date] = item;
-            }
-        }
-    );
-
-    const days =
-        Object.values(dailyMap).slice(
-            0,
-            5
-        );
-
-    return (
-        <div
-            className="
+  return (
+    <div
+      className="
       glass
       rounded-3xl
       p-6
       "
-        >
-            <h2
-                className="
+    >
+      <h2
+        className="
         font-semibold
         mb-4
         "
-            >
-                5-Day Forecast
-            </h2>
+      >
+        5-Day Forecast
+      </h2>
 
-            <div className="space-y-3">
+      <div className="space-y-3">
+        {days.map((day, index) => {
+          const date = new Date(day.dt * 1000);
 
-                {days.map(
-                    (day, index) => {
+          const icon = day.weather?.[0]?.icon;
 
-                        const date =
-                            new Date(
-                                day.dt * 1000
-                            );
-
-                        const icon =
-                            day.weather?.[0]?.icon;
-
-                        return (
-                            <div
-                                key={index}
-                                className="
+          return (
+            <div
+              key={index}
+              className="
                 flex
                 items-center
                 justify-between
@@ -76,42 +53,29 @@ export default function WeeklyForecast() {
                 p-3
                 rounded-xl
                 "
-                            >
+            >
+              <span>
+                {date.toLocaleDateString([], {
+                  weekday: "long",
+                })}
+              </span>
 
-                                <span>
-                                    {date.toLocaleDateString(
-                                        [],
-                                        {
-                                            weekday:
-                                                "long",
-                                        }
-                                    )}
-                                </span>
+              {icon && (
+                <img
+                  src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+                  className="w-10 h-10"
+                />
+              )}
 
-                                {icon && (
-                                    <img
-                                        src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
-                                        className="w-10 h-10"
-                                    />
-                                )}
-
-                                <span>
-                                    {Math.round(
-                                        day.main.temp_max
-                                    )}
-                                    ° /
-                                    {Math.round(
-                                        day.main.temp_min
-                                    )}
-                                    °C
-                                </span>
-
-                            </div>
-                        );
-                    }
-                )}
-
+              <span>
+                {Math.round(day.main.temp_max)}° /
+                {Math.round(day.main.temp_min)}
+                °C
+              </span>
             </div>
-        </div>
-    );
+          );
+        })}
+      </div>
+    </div>
+  );
 }

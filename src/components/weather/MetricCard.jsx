@@ -1,11 +1,6 @@
-import {
-  motion,
-} from "framer-motion";
+import { motion } from "framer-motion";
 
-export default function MetricCard({
-  title,
-  value,
-}) {
+export default function MetricCard({ title, value }) {
   return (
     <motion.div
       whileHover={{
@@ -17,9 +12,7 @@ export default function MetricCard({
       p-5
       "
     >
-      <p className="text-gray-400">
-        {title}
-      </p>
+      <p className="text-gray-400">{title}</p>
 
       <h3
         className="

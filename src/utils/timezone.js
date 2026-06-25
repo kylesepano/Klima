@@ -1,13 +1,9 @@
 export function getLocalTime(weather) {
   if (!weather) return null;
 
-  const utc =
-    Date.now() +
-    new Date().getTimezoneOffset() * 60000;
+  const utc = Date.now() + new Date().getTimezoneOffset() * 60000;
 
-  return new Date(
-    utc + weather.timezone * 1000
-  );
+  return new Date(utc + weather.timezone * 1000);
 }
 
 export function formatLocalTime(date) {

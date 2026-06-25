@@ -1,39 +1,21 @@
-import {
-  FaCloudSun,
-  FaMapMarkedAlt,
-  FaChartLine,
-} from "react-icons/fa";
-
+import { FaCloudSun, FaMapMarkedAlt, FaChartLine } from "react-icons/fa";
 
 import logo from "../../assets/logo.png";
 
-import {
-  useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
-import SidebarRecentSearches
-  from "../weather/SidebarRecentSearches";
+import SidebarRecentSearches from "../weather/SidebarRecentSearches";
 
-import SidebarWeatherCard
-  from "../weather/SidebarWeatherCard";
+import SidebarWeatherCard from "../weather/SidebarWeatherCard";
 
 export default function Sidebar({
   collapsed = false,
-  setCollapsed = () => { },
+  setCollapsed = () => {},
   setMobileMenuOpen,
 }) {
+  const activeSection = useWeatherStore((state) => state.activeSection);
 
-  const activeSection =
-    useWeatherStore(
-      (state) =>
-        state.activeSection
-    );
-
-  const setActiveSection =
-    useWeatherStore(
-      (state) =>
-        state.setActiveSection
-    );
+  const setActiveSection = useWeatherStore((state) => state.setActiveSection);
 
   const menuItems = [
     {
@@ -76,7 +58,6 @@ ${collapsed ? "w-20" : "w-72"}
 p-3
 `}
     >
-
       {/* LOGO */}
 
       <button
@@ -148,24 +129,15 @@ p-3
         gap-2
         "
       >
-        {menuItems.map(
-          (item) => (
-            <button
-              key={item.id}
-              onClick={() =>
-                setActiveSection(
-                  item.id
-                )
-
-
-              }
-              className={`
+        {menuItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setActiveSection(item.id)}
+            className={`
   flex
   items-center
 
-  ${collapsed
-                  ? "justify-center"
-                  : "gap-3"}
+  ${collapsed ? "justify-center" : "gap-3"}
 
   px-4
   py-3
@@ -173,34 +145,30 @@ p-3
   rounded-xl
   transition
 
-  ${activeSection === item.id
-                  ? "bg-blue-500"
-                  : "hover:bg-white/10"}
+  ${activeSection === item.id ? "bg-blue-500" : "hover:bg-white/10"}
 `}
-            >
-              <span
-                className="
+          >
+            <span
+              className="
                 text-lg
                 "
-              >
-                {item.icon}
-              </span>
+            >
+              {item.icon}
+            </span>
 
-              {!collapsed && (
-                <span>
-                  {item.label}
-                </span>
-              )}
-            </button>
-          )
-        )}
+            {!collapsed && <span>{item.label}</span>}
+          </button>
+        ))}
       </div>
 
       {/* RECENT SEARCHES */}
 
       {!collapsed && (
         <div className="mt-6">
-          <SidebarRecentSearches setMobileMenuOpen={setMobileMenuOpen} setActiveSection={setActiveSection} />
+          <SidebarRecentSearches
+            setMobileMenuOpen={setMobileMenuOpen}
+            setActiveSection={setActiveSection}
+          />
         </div>
       )}
 
@@ -211,7 +179,6 @@ p-3
           <SidebarWeatherCard />
         </div>
       )}
-
     </aside>
   );
 }

@@ -1,7 +1,4 @@
-export default function GlassCard({
-  children,
-  className = "",
-}) {
+export default function GlassCard({ children, className = "" }) {
   return (
     <div
       className={`

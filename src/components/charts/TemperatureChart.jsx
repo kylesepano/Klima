@@ -7,37 +7,20 @@ import {
   Tooltip,
 } from "recharts";
 
-import {
-  useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
-import {
-  formatHour,
-} from "../../utils/dateHelpers";
+import { formatHour } from "../../utils/dateHelpers";
 
 export default function TemperatureChart() {
-
-  const forecast =
-    useWeatherStore(
-      (state) => state.forecast
-    );
+  const forecast = useWeatherStore((state) => state.forecast);
 
   if (!forecast) return null;
 
-  const chartData =
-    forecast.list
-      .slice(0, 8)
-      .map((item) => ({
-        time:
-          formatHour(
-            item.dt_txt
-          ),
+  const chartData = forecast.list.slice(0, 8).map((item) => ({
+    time: formatHour(item.dt_txt),
 
-        temp:
-          Math.round(
-            item.main.temp
-          ),
-      }));
+    temp: Math.round(item.main.temp),
+  }));
 
   return (
     <div
@@ -58,16 +41,9 @@ export default function TemperatureChart() {
         Temperature Trend
       </h2>
 
-      <ResponsiveContainer
-        width="100%"
-        height={300}
-      >
-        <LineChart
-          data={chartData}
-        >
-          <XAxis
-            dataKey="time"
-          />
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={chartData}>
+          <XAxis dataKey="time" />
 
           <YAxis />
 

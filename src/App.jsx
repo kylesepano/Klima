@@ -1,8 +1,6 @@
-import Dashboard
-  from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard";
 
-import AnimatedBackground
-  from "./components/ui/AnimatedBackground";
+import AnimatedBackground from "./components/ui/AnimatedBackground";
 
 export default function App() {
   return (

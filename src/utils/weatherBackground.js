@@ -4,28 +4,24 @@ import rainBg from "../assets/backgrounds/rain.jpg";
 import snowBg from "../assets/backgrounds/snow.jpg";
 
 export function getWeatherBackground(weather) {
+  if (!weather) return cloudyBg;
 
-    if (!weather)
-        return cloudyBg;
+  const main = weather.weather?.[0]?.main;
 
-    const main =
-        weather.weather?.[0]?.main;
+  switch (main) {
+    case "Clear":
+      return clearBg;
 
-    switch (main) {
+    case "Rain":
+    case "Drizzle":
+    case "Thunderstorm":
+      return rainBg;
 
-        case "Clear":
-            return clearBg;
+    case "Snow":
+      return snowBg;
 
-        case "Rain":
-        case "Drizzle":
-        case "Thunderstorm":
-            return rainBg;
-
-        case "Snow":
-            return snowBg;
-
-        case "Clouds":
-        default:
-            return cloudyBg;
-    }
+    case "Clouds":
+    default:
+      return cloudyBg;
+  }
 }

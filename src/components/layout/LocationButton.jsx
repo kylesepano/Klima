@@ -1,17 +1,11 @@
-import useCurrentLocation
-  from "../../hooks/useCurrentLocation";
+import useCurrentLocation from "../../hooks/useCurrentLocation";
 
 import { Crosshair } from "lucide-react";
 
-export default function
-  LocationButton() {
-
-  const getLocation =
-    useCurrentLocation();
+export default function LocationButton() {
+  const getLocation = useCurrentLocation();
 
   return (
-
-
     <button
       onClick={getLocation}
       className="

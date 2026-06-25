@@ -1,15 +1,9 @@
-import {
-    FaGithub,
-    FaGlobe,
-    FaEnvelope,
-} from "react-icons/fa";
-
+import { FaGithub, FaGlobe, FaEnvelope } from "react-icons/fa";
 
 export default function Footer() {
-
-    return (
-        <footer
-            className="
+  return (
+    <footer
+      className="
       glass
 
       mt-8
@@ -20,49 +14,46 @@ export default function Footer() {
 
       rounded-t-3xl
       "
-        >
-
-            <h2
-                className="
+    >
+      <h2
+        className="
         text-3xl
         font-bold
         mb-2
         "
-            >
-                Klima
-            </h2>
+      >
+        Klima
+      </h2>
 
-            <p
-                className="
+      <p
+        className="
         text-slate-400
         "
-            >
-                Your daily forecast,
-                beautifully simple.
-            </p>
+      >
+        Your daily forecast, beautifully simple.
+      </p>
 
-            <div
-                className="
+      <div
+        className="
         flex
         justify-center
         gap-6
         my-4
         "
-            >
-                <FaGithub />
-                <FaEnvelope />
-                <FaGlobe />
-            </div>
+      >
+        <FaGithub />
+        <FaEnvelope />
+        <FaGlobe />
+      </div>
 
-            <p
-                className="
+      <p
+        className="
         text-slate-500
         text-sm
         "
-            >
-                Designed by Kyle Dacalos © 2025
-            </p>
-
-        </footer>
-    );
+      >
+        Designed by Kyle Dacalos © 2025
+      </p>
+    </footer>
+  );
 }

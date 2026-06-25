@@ -1,13 +1,7 @@
-import {
-  useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
 export default function ExtraInfoCard() {
-
-  const weather =
-    useWeatherStore(
-      (state) => state.weather
-    );
+  const weather = useWeatherStore((state) => state.weather);
 
   if (!weather) return null;
 
@@ -29,7 +23,6 @@ export default function ExtraInfoCard() {
       </h3>
 
       <div className="space-y-3">
-
         <div className="flex justify-between">
           <span>UV Index</span>
           <span>Moderate</span>
@@ -50,7 +43,6 @@ export default function ExtraInfoCard() {
             hPa
           </span>
         </div>
-
       </div>
     </div>
   );

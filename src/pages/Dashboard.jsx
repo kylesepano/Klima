@@ -23,40 +23,24 @@ import { motion } from "framer-motion";
 
 import { useWeatherStore } from "../store/weatherStore";
 
-import {
-    getWeatherBackground,
-} from "../utils/weatherBackground";
+import { getWeatherBackground } from "../utils/weatherBackground";
 
 export default function Dashboard() {
-    useWeather();
+  useWeather();
 
-    const [collapsed, setCollapsed] =
-        useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
-    const [mobileMenuOpen,
-        setMobileMenuOpen] =
-        useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const activeSection =
-        useWeatherStore(
-            (state) =>
-                state.activeSection
-        );
+  const activeSection = useWeatherStore((state) => state.activeSection);
 
-    const weather =
-        useWeatherStore(
-            (state) =>
-                state.weather
-        );
+  const weather = useWeatherStore((state) => state.weather);
 
-    const background =
-        getWeatherBackground(
-            weather
-        );
+  const background = getWeatherBackground(weather);
 
-    return (
-        <div
-            className="
+  return (
+    <div
+      className="
       min-h-screen
       bg-cover
       bg-center
@@ -64,37 +48,36 @@ export default function Dashboard() {
       relative
       overflow-x-hidden
       "
-            style={{
-                backgroundImage:
-                    `url(${background})`,
-            }}
-        >
-            {/* Background Overlay */}
+      style={{
+        backgroundImage: `url(${background})`,
+      }}
+    >
+      {/* Background Overlay */}
 
-            <div
-                className="
+      <div
+        className="
         absolute
         inset-0
         bg-black/60
         z-0
         "
-            />
+      />
 
-            <div
-                className="
+      <div
+        className="
         relative
         z-10
         flex
         min-h-screen
         items-start
         "
-            >
-                {/* ===================== */}
-                {/* MOBILE NAVBAR */}
-                {/* ===================== */}
+      >
+        {/* ===================== */}
+        {/* MOBILE NAVBAR */}
+        {/* ===================== */}
 
-                <div
-                    className="
+        <div
+          className="
           md:hidden
           fixed
           top-0
@@ -111,59 +94,51 @@ export default function Dashboard() {
           items-center
           justify-between
           "
-                >
-                    <h1
-                        className="
+        >
+          <h1
+            className="
             text-xl
             font-bold
             "
-                    >
-                        Klima
-                    </h1>
+          >
+            Klima
+          </h1>
 
-                    <button
-                        onClick={() =>
-                            setMobileMenuOpen(
-                                !mobileMenuOpen
-                            )
-                        }
-                        className="
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="
             p-2
             rounded-lg
             glass
             "
-                    >
-                        ☰
-                    </button>
-                </div>
+          >
+            ☰
+          </button>
+        </div>
 
-                {/* ===================== */}
-                {/* MOBILE SIDEBAR */}
-                {/* ===================== */}
+        {/* ===================== */}
+        {/* MOBILE SIDEBAR */}
+        {/* ===================== */}
 
-                {mobileMenuOpen && (
-                    <>
-                        {/* Overlay */}
+        {mobileMenuOpen && (
+          <>
+            {/* Overlay */}
 
-                        <div
-                            onClick={() =>
-                                setMobileMenuOpen(
-                                    false
-                                )
-                            }
-                            className="
+            <div
+              onClick={() => setMobileMenuOpen(false)}
+              className="
               fixed
               inset-0
               bg-black/50
               z-40
               md:hidden
               "
-                        />
+            />
 
-                        {/* Sidebar */}
+            {/* Sidebar */}
 
-                        <div
-                            className="
+            <div
+              className="
               fixed
               top-0
               left-0
@@ -171,44 +146,41 @@ export default function Dashboard() {
               h-screen
               md:hidden
               "
-                        >
-                            <Sidebar
-                                collapsed={false}
-                                setCollapsed={() => { }}
-                                setMobileMenuOpen={setMobileMenuOpen}
-                            />
-                        </div>
-                    </>
-                )}
+            >
+              <Sidebar
+                collapsed={false}
+                setCollapsed={() => {}}
+                setMobileMenuOpen={setMobileMenuOpen}
+              />
+            </div>
+          </>
+        )}
 
-                {/* ===================== */}
-                {/* DESKTOP SIDEBAR */}
-                {/* ===================== */}
+        {/* ===================== */}
+        {/* DESKTOP SIDEBAR */}
+        {/* ===================== */}
 
-                <div
-                    className={`
-    hidden
-    md:block
-    fixed
-    left-0
-    top-0
-    h-screen
-    z-30
-    ${collapsed ? "w-20" : "w-72"}
-  `}
-                >
-                    <Sidebar
-                        collapsed={collapsed}
-                        setCollapsed={setCollapsed}
-                    />
-                </div>
+        <div
+          className={`
+                hidden
+                md:block
+                fixed
+                left-0
+                top-0
+                h-screen
+                z-30
+                ${collapsed ? "w-20" : "w-72"}
+            `}
+        >
+          <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+        </div>
 
-                {/* ===================== */}
-                {/* MAIN CONTENT */}
-                {/* ===================== */}
+        {/* ===================== */}
+        {/* MAIN CONTENT */}
+        {/* ===================== */}
 
-                <div
-                    className={`
+        <div
+          className={`
     flex
     flex-col
     flex-1
@@ -219,107 +191,90 @@ export default function Dashboard() {
     duration-300
     ${collapsed ? "md:ml-20" : "md:ml-72"}
   `}
-                >
-                    <Header />
+        >
+          <Header />
 
-                    <motion.main
-                        className="
+          <motion.main
+            className="
             flex-1
             p-4
             md:p-6
             overflow-y-auto
             "
-                        initial={{
-                            opacity: 0,
-                        }}
-                        animate={{
-                            opacity: 1,
-                        }}
-                    >
-                        {/* DASHBOARD */}
-
-                        {activeSection ===
-                            "dashboard" && (
-                                <div className="space-y-6">
-
-                                    <div
-                                        className="
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+          >
+            {/* DASHBOARD */}
+            {activeSection === "dashboard" && (
+              <div className="space-y-6">
+                <div
+                  className="
                     grid
                     grid-cols-1
                     lg:grid-cols-2
                     gap-6
                     "
-                                    >
-                                        <WeatherHero />
+                >
+                  <WeatherHero />
 
-                                        <MiniMapCard />
-                                    </div>
+                  <MiniMapCard />
+                </div>
 
-                                    <WeatherDetails />
+                <WeatherDetails />
 
-                                    <div
-                                        className="
+                <div
+                  className="
                     grid
                     grid-cols-1
                     lg:grid-cols-3
                     gap-6
                     "
-                                    >
-                                        <AQICard />
+                >
+                  <AQICard />
 
-                                        <WeeklyForecast />
+                  <WeeklyForecast />
 
-                                        <HourlyForecast />
-                                    </div>
+                  <HourlyForecast />
+                </div>
 
-                                    <TemperatureChart />
+                <TemperatureChart />
+              </div>
+            )}
+            {/* FORECAST */}
+            {activeSection === "charts" && (
+              <div className="space-y-6">
+                <TemperatureChart />
 
-                                </div>
-                            )}
+                <WeeklyForecast />
 
-                        {/* FORECAST */}
-
-                        {activeSection ===
-                            "charts" && (
-                                <div className="space-y-6">
-
-                                    <TemperatureChart />
-
-                                    <WeeklyForecast />
-
-                                    <HourlyForecast />
-
-                                </div>
-                            )}
-
-                        {/* MAP */}
-
-                        {activeSection ===
-                            "map" && (
-                                <div
-                                    className="
+                <HourlyForecast />
+              </div>
+            )}
+            {/* MAP */}
+            {activeSection === "map" && (
+              <div
+                className="
                   h-[75vh]
                   "
-                                >
-                                    <MiniMapCard />
-                                </div>
-                            )}
+              >
+                <MiniMapCard />
+              </div>
+            )}
+            {/* FAVORITES */}
+            {activeSection === "favorites" && (
+              <div className="space-y-6">
+                <FavoritesPanel />
+              </div>
+            )}
+          </motion.main>
 
-                        {/* FAVORITES */}
-
-                        {activeSection ===
-                            "favorites" && (
-                                <div className="space-y-6">
-
-                                    <FavoritesPanel />
-
-                                </div>
-                            )}
-                    </motion.main>
-
-                    <Footer />
-                </div>
-            </div>
+          <Footer />
         </div>
-    );
+      </div>
+    </div>
+  );
 }

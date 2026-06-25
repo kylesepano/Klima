@@ -1,8 +1,6 @@
 import { create } from "zustand";
 
-import {
-  getRecentSearches,
-} from "../utils/storage";
+import { getRecentSearches } from "../utils/storage";
 
 export const useWeatherStore = create((set) => ({
   location: null,
@@ -15,7 +13,6 @@ export const useWeatherStore = create((set) => ({
 
   loading: false,
 
-
   favorites: [],
 
   recentSearches: [],
@@ -26,44 +23,31 @@ export const useWeatherStore = create((set) => ({
 
   setSidebarCollapsed: () =>
     set((state) => ({
-      sidebarCollapsed:
-        !state.sidebarCollapsed,
+      sidebarCollapsed: !state.sidebarCollapsed,
     })),
 
   savedLocations: [],
 
-  setSavedLocations: (savedLocations) =>
-    set({ savedLocations }),
+  setSavedLocations: (savedLocations) => set({ savedLocations }),
 
-  setLocation: (location) =>
-    set({ location }),
+  setLocation: (location) => set({ location }),
 
-  setWeather: (weather) =>
-    set({ weather }),
+  setWeather: (weather) => set({ weather }),
 
-  setForecast: (forecast) =>
-    set({ forecast }),
+  setForecast: (forecast) => set({ forecast }),
 
-  setAQI: (aqi) =>
-    set({ aqi }),
+  setAQI: (aqi) => set({ aqi }),
 
-  setLoading: (loading) =>
-    set({ loading }),
+  setLoading: (loading) => set({ loading }),
 
+  setFavorites: (favorites) => set({ favorites }),
 
-  setFavorites: (favorites) =>
-    set({ favorites }),
-
-  setRecentSearches: (
-    recentSearches
-  ) =>
+  setRecentSearches: (recentSearches) =>
     set({
       recentSearches,
     }),
 
-  setSearchResults: (
-    searchResults
-  ) =>
+  setSearchResults: (searchResults) =>
     set({
       searchResults,
     }),
@@ -77,19 +61,15 @@ export const useWeatherStore = create((set) => ({
 
   searchQuery: "",
 
-  setSearchQuery: (
-    searchQuery
-  ) =>
+  setSearchQuery: (searchQuery) =>
     set({
       searchQuery,
     }),
 
-  recentSearches:
-    getRecentSearches(),
+  recentSearches: getRecentSearches(),
 
-  setRecentSearches:
-    (searches) =>
-      set({
-        recentSearches: searches,
-      }),
+  setRecentSearches: (searches) =>
+    set({
+      recentSearches: searches,
+    }),
 }));

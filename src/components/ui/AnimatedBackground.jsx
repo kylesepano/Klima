@@ -1,25 +1,14 @@
-import {
-  motion,
-} from "framer-motion";
+import { motion } from "framer-motion";
 
-import {
-  useWeatherStore,
-} from "../../store/weatherStore";
+import { useWeatherStore } from "../../store/weatherStore";
 
 export default function AnimatedBackground() {
+  const weather = useWeatherStore((state) => state.weather);
 
-  const weather =
-    useWeatherStore(
-      (state) => state.weather
-    );
-
-  const condition =
-    weather?.weather?.[0]?.main;
+  const condition = weather?.weather?.[0]?.main;
 
   const getBg = () => {
-
     switch (condition) {
-
       case "Rain":
         return "from-blue-900 via-blue-700 to-gray-900";
 
