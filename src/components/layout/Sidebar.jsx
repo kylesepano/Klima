@@ -1,19 +1,9 @@
-import { useState } from "react";
-
-
-
 import {
   FaCloudSun,
   FaMapMarkedAlt,
   FaChartLine,
-  FaStar,
-  FaCog,
-  FaBell,
 } from "react-icons/fa";
 
-import {
-  Cloud,
-} from "lucide-react";
 
 import logo from "../../assets/logo.png";
 
@@ -27,11 +17,11 @@ import SidebarRecentSearches
 import SidebarWeatherCard
   from "../weather/SidebarWeatherCard";
 
-export default function Sidebar() {
-
-  const [collapsed,
-    setCollapsed] =
-    useState(false);
+export default function Sidebar({
+  collapsed = false,
+  setCollapsed = () => { },
+  setMobileMenuOpen,
+}) {
 
   const activeSection =
     useWeatherStore(
@@ -61,60 +51,44 @@ export default function Sidebar() {
       label: "Map",
       icon: <FaMapMarkedAlt />,
     },
-    // {
-    //   id: "favorites",
-    //   label: "Favorites",
-    //   icon: <FaStar />,
-    // },
-    // {
-    //   id: "alerts",
-    //   label: "Alerts",
-    //   icon: <FaBell />,
-    // },
-    // {
-    //   id: "settings",
-    //   label: "Settings",
-    //   icon: <FaCog />,
-    // },
   ];
 
   return (
     <aside
       className={`
-  glass
-  min-h-screen
+glass
 
-  flex
-  flex-col
+sticky
+top-0
 
-  transition-all
-  duration-300
+h-screen
 
-  ${collapsed
-          ? "w-20"
-          : "w-20 md:w-72"
-        }
+flex
+flex-col
 
-  p-3
-  `}
+transition-all
+duration-300
+
+overflow-y-auto
+
+${collapsed ? "w-20" : "w-72"}
+
+p-3
+`}
     >
+
       {/* LOGO */}
 
       <button
-        onClick={() =>
-          setCollapsed(
-            !collapsed
-          )
-        }
+        onClick={() => setCollapsed(!collapsed)}
         className="
-        flex
-        items-center
-        gap-3
-
-        mb-8
-        "
+  flex
+  items-center
+  gap-3
+  mb-8
+  text-left
+  "
       >
-
         <div
           className="
           w-12
@@ -135,25 +109,34 @@ export default function Sidebar() {
             src={logo}
             alt="Klima Logo"
             className="
-    w-12
-    h-12
-    object-contain
-  "
+            w-12
+            h-12
+            object-contain
+            "
           />
         </div>
 
         {!collapsed && (
-          <div className="hidden md:block">
-            <h1 className="text-2xl font-bold">
+          <div>
+            <h1
+              className="
+      text-2xl
+      font-bold
+      "
+            >
               Klima
             </h1>
 
-            <p className="text-xs text-slate-400">
+            <p
+              className="
+      text-xs
+      text-slate-400
+      "
+            >
               Weather Weather Lang
             </p>
           </div>
         )}
-
       </button>
 
       {/* NAVIGATION */}
@@ -167,34 +150,34 @@ export default function Sidebar() {
       >
         {menuItems.map(
           (item) => (
-
             <button
               key={item.id}
               onClick={() =>
                 setActiveSection(
                   item.id
                 )
+
+
               }
               className={`
-              flex
-              items-center
-              gap-3
+  flex
+  items-center
 
-              px-4
-              py-3
+  ${collapsed
+                  ? "justify-center"
+                  : "gap-3"}
 
-              rounded-xl
+  px-4
+  py-3
 
-              transition
+  rounded-xl
+  transition
 
-              ${activeSection ===
-                  item.id
+  ${activeSection === item.id
                   ? "bg-blue-500"
-                  : "hover:bg-white/10"
-                }
-              `}
+                  : "hover:bg-white/10"}
+`}
             >
-
               <span
                 className="
                 text-lg
@@ -204,13 +187,11 @@ export default function Sidebar() {
               </span>
 
               {!collapsed && (
-                <span className="hidden md:block">
+                <span>
                   {item.label}
                 </span>
               )}
-
             </button>
-
           )
         )}
       </div>
@@ -218,15 +199,15 @@ export default function Sidebar() {
       {/* RECENT SEARCHES */}
 
       {!collapsed && (
-        <div className="hidden md:block">
-          <SidebarRecentSearches />
+        <div className="mt-6">
+          <SidebarRecentSearches setMobileMenuOpen={setMobileMenuOpen} setActiveSection={setActiveSection} />
         </div>
       )}
 
       {/* WEATHER CARD */}
 
       {!collapsed && (
-        <div className="hidden md:block">
+        <div className="mt-6">
           <SidebarWeatherCard />
         </div>
       )}

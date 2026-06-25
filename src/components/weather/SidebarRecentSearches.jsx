@@ -2,7 +2,7 @@ import {
     useWeatherStore,
 } from "../../store/weatherStore";
 
-export default function SidebarRecentSearches() {
+export default function SidebarRecentSearches({ setMobileMenuOpen, setActiveSection }) {
 
     const recentSearches =
         useWeatherStore(
@@ -49,10 +49,16 @@ export default function SidebarRecentSearches() {
                     ) => (
                         <button
                             key={index}
-                            onClick={() =>
+                            onClick={() => {
                                 setLocation(
                                     city
-                                )
+                                );
+                                if (window.innerWidth < 768) {
+                                    setMobileMenuOpen?.(false);
+                                }
+                                setActiveSection?.("dashboard");
+
+                            }
                             }
                             className="
               w-full
