@@ -5,13 +5,13 @@ import Sidebar from "../components/layout/Sidebar";
 import Footer from "../components/layout/Footer";
 
 import WeatherHero from "../components/weather/WeatherHero";
-import WeatherDetails from "../components/weather/WeatherDetails";
 import HourlyForecast from "../components/weather/HourlyForecast";
 import WeeklyForecast from "../components/weather/WeeklyForecast";
 import AQICard from "../components/weather/AQICard";
+import SunCard from "../components/weather/SunCard";
+import ExtraInfoCard from "../components/weather/ExtraInfoCard";
 
 import TemperatureChart from "../components/charts/TemperatureChart";
-import MapPanel from "../components/map/MapPanel";
 
 import FavoritesPanel from "../components/weather/FavoritesPanel";
 
@@ -58,7 +58,7 @@ export default function Dashboard() {
         className="
         absolute
         inset-0
-        bg-black/60
+        bg-[#020814]/75
         z-0
         "
       />
@@ -169,7 +169,7 @@ export default function Dashboard() {
                 top-0
                 h-screen
                 z-30
-                ${collapsed ? "w-20" : "w-72"}
+                ${collapsed ? "w-20" : "w-56"}
             `}
         >
           <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
@@ -186,19 +186,20 @@ export default function Dashboard() {
     flex-1
     min-w-0
     pt-20
-    md:pt-6
+    md:pt-0
     transition-all
     duration-300
-    ${collapsed ? "md:ml-20" : "md:ml-72"}
+    ${collapsed ? "md:ml-20" : "md:ml-56"}
   `}
         >
-          <Header />
-
           <motion.main
             className="
             flex-1
-            p-4
-            md:p-6
+            px-4
+            pb-24
+            pt-0
+            md:px-8
+            md:pb-24
             overflow-y-auto
             "
             initial={{
@@ -210,43 +211,43 @@ export default function Dashboard() {
           >
             {/* DASHBOARD */}
             {activeSection === "dashboard" && (
-              <div className="space-y-6">
+              <div className="mx-auto w-full max-w-[1260px] space-y-4">
+                <Header />
+
                 <div
                   className="
                     grid
                     grid-cols-1
-                    lg:grid-cols-2
-                    gap-6
+                    xl:grid-cols-[minmax(0,1fr)_minmax(420px,1.02fr)]
+                    gap-4
                     "
                 >
-                  <WeatherHero />
+                  <div className="space-y-4">
+                    <WeatherHero />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <AQICard />
+
+                      <div className="grid gap-4">
+                        <SunCard />
+                        <ExtraInfoCard />
+                      </div>
+                    </div>
+                  </div>
 
                   <MiniMapCard />
                 </div>
 
-                <WeatherDetails />
-
-                <div
-                  className="
-                    grid
-                    grid-cols-1
-                    lg:grid-cols-3
-                    gap-6
-                    "
-                >
-                  <AQICard />
-
+                <div className="grid grid-cols-1 xl:grid-cols-[0.95fr_1fr] gap-4">
                   <WeeklyForecast />
-
                   <HourlyForecast />
                 </div>
-
-                <TemperatureChart />
               </div>
             )}
             {/* FORECAST */}
             {activeSection === "charts" && (
-              <div className="space-y-6">
+              <div className="mx-auto w-full max-w-[1260px] space-y-6">
+                <Header />
                 <TemperatureChart />
 
                 <WeeklyForecast />
@@ -258,21 +259,26 @@ export default function Dashboard() {
             {activeSection === "map" && (
               <div
                 className="
+                  mx-auto
+                  w-full
+                  max-w-[1260px]
                   h-[75vh]
                   "
               >
+                <Header />
                 <MiniMapCard />
               </div>
             )}
             {/* FAVORITES */}
             {activeSection === "favorites" && (
-              <div className="space-y-6">
+              <div className="mx-auto w-full max-w-[1260px] space-y-6">
+                <Header />
                 <FavoritesPanel />
               </div>
             )}
           </motion.main>
 
-          <Footer />
+          <Footer collapsed={collapsed} />
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import { Droplet } from "lucide-react";
+
 import { useWeatherStore } from "../../store/weatherStore";
 
 export default function HourlyForecast() {
@@ -5,63 +7,27 @@ export default function HourlyForecast() {
 
   if (!forecast) return null;
 
-  // Take first 8 items (~24 hours)
-  const hourly = forecast.list?.slice(0, 8);
+  const hourly = forecast.list?.slice(0, 6) || [];
 
   return (
-    <div
-      className="
-      glass
-      rounded-3xl
-      p-6
-      "
-    >
-      <h2
-        className="
-        font-semibold
-        mb-4
-        "
-      >
-        Hourly Forecast
-      </h2>
+    <div className="glass rounded-2xl p-5">
+      <h2 className="mb-4 text-sm font-semibold text-white">Hourly Forecast</h2>
 
-      <div
-        className="
-  grid
-  grid-cols-2
-  sm:grid-cols-4
-  gap-4
-  "
-      >
-        {hourly.map((item, index) => {
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        {hourly.map((item) => {
           const time = new Date(item.dt * 1000);
-
           const icon = item.weather?.[0]?.icon;
+          const rainChance = Math.round((item.pop || 0) * 100);
 
           return (
             <div
               key={item.dt}
-              className=" glass rounded-2xl p-4 text-center flex
-    flex-col
-    items-center
-    justify-center
-
-    hover:scale-105
-    transition
-
-    min-h-[140px]
-  "
+              className="flex min-h-[116px] flex-col items-center justify-between rounded-xl bg-white/[0.06] p-3 text-center"
             >
-              <p
-                className="
-      text-sm
-      text-slate-300
-      font-medium
-    "
-              >
+              <p className="text-xs font-medium text-slate-300">
                 {time.toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
+                  hour: "numeric",
+                  hour12: true,
                 })}
               </p>
 
@@ -69,12 +35,17 @@ export default function HourlyForecast() {
                 <img
                   src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
                   alt=""
-                  className="w-14 h-14"
+                  className="h-12 w-12"
                 />
               )}
 
-              <p className=" text-xl font-bold">
-                {Math.round(item.main.temp)}°
+              <p className="text-sm font-semibold text-white">
+                {Math.round(item.main.temp)}°C
+              </p>
+
+              <p className="flex items-center gap-1 text-[11px] text-sky-300">
+                <Droplet size={11} />
+                {rainChance}%
               </p>
             </div>
           );

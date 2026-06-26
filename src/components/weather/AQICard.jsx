@@ -10,124 +10,67 @@ export default function AQICard() {
   if (!aqi) return null;
 
   const level = aqi.main?.aqi || 1;
-
   const components = aqi.components || {};
+  const score = Math.min(100, Math.max(0, Math.round(level * 20)));
 
-  // Convert 1-5 scale to %
-  const percentage = (level / 5) * 100;
-
-  const getLabel = (level) => {
-    switch (level) {
-      case 1:
-        return "Good";
-      case 2:
-        return "Fair";
-      case 3:
-        return "Moderate";
-      case 4:
-        return "Poor";
-      case 5:
-        return "Very Poor";
-      default:
-        return "Unknown";
-    }
+  const labels = {
+    1: "Good",
+    2: "Fair",
+    3: "Moderate",
+    4: "Poor",
+    5: "Very Poor",
   };
 
-  const getColor = (level) => {
-    switch (level) {
-      case 1:
-        return "#22c55e";
-      case 2:
-        return "#84cc16";
-      case 3:
-        return "#facc15";
-      case 4:
-        return "#f97316";
-      case 5:
-        return "#ef4444";
-      default:
-        return "#64748b";
-    }
+  const colors = {
+    1: "#4ade80",
+    2: "#a3e635",
+    3: "#facc15",
+    4: "#fb923c",
+    5: "#f87171",
   };
+
+  const pollutants = [
+    ["PM2.5", components.pm2_5],
+    ["PM10", components.pm10],
+    ["CO", components.co],
+    ["NO2", components.no2],
+    ["O3", components.o3],
+  ];
 
   return (
-    <div
-      className="
-      glass
-      rounded-3xl
-      p-6
-      flex
-      flex-col
-      items-center
-      justify-center
-      "
-    >
-      <h2
-        className="
-        text-sm
-        text-slate-300
-        mb-4
-        "
-      >
-        Air Quality Index
-      </h2>
+    <div className="glass rounded-2xl p-5">
+      <h2 className="mb-4 text-sm font-semibold text-white">Air Quality Index</h2>
 
-      <div className="w-32 h-32">
+      <div className="mx-auto h-36 w-36">
         <CircularProgressbar
-          value={percentage}
-          text={`${level}`}
+          value={score}
+          text={`${score}`}
           styles={buildStyles({
-            pathColor: getColor(level),
+            pathColor: colors[level],
             textColor: "#fff",
-            trailColor: "#1f2937",
-            textSize: "28px",
+            trailColor: "rgba(148, 163, 184, 0.25)",
+            textSize: "24px",
+            strokeLinecap: "round",
           })}
         />
       </div>
 
-      <p
-        className="
-        mt-4
-        font-semibold
-        text-lg
-        "
-        style={{
-          color: getColor(level),
-        }}
-      >
-        {getLabel(level)}
+      <p className="mt-2 text-center text-sm font-semibold text-white">
+        {labels[level]}
+      </p>
+      <p className="mt-1 text-center text-xs text-slate-300">
+        Air quality is satisfactory.
       </p>
 
-      {/* Pollutants */}
-
-      <div
-        className="
-        mt-4
-        w-full
-        text-xs
-        space-y-2
-        text-slate-300
-        "
-      >
-        <div className="flex justify-between">
-          <span>PM2.5</span>
-          <span>{components.pm2_5}</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span>PM10</span>
-          <span>{components.pm10}</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span>NO₂</span>
-          <span>{components.no2}</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span>O₃</span>
-          <span>{components.o3}</span>
-        </div>
+      <div className="mt-4 space-y-2 text-xs text-slate-300">
+        {pollutants.map(([label, value]) => (
+          <div key={label} className="flex items-center justify-between gap-3">
+            <span>{label}</span>
+            <span className="text-slate-100">
+              {Number(value || 0).toFixed(value > 100 ? 0 : 1)} ug/m3
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

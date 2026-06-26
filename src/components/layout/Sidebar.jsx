@@ -1,4 +1,11 @@
-import { FaCloudSun, FaMapMarkedAlt, FaChartLine } from "react-icons/fa";
+import {
+  FaBell,
+  FaChartLine,
+  FaCloudSun,
+  FaCog,
+  FaMapMarkedAlt,
+  FaStar,
+} from "react-icons/fa";
 
 import logo from "../../assets/logo.png";
 
@@ -53,9 +60,9 @@ duration-300
 
 overflow-y-auto
 
-${collapsed ? "w-20" : "w-72"}
+${collapsed ? "w-20" : "w-56"}
 
-p-3
+p-4
 `}
     >
       {/* LOGO */}
@@ -66,16 +73,16 @@ p-3
   flex
   items-center
   gap-3
-  mb-8
+  mb-7
   text-left
   "
       >
         <div
           className="
-          w-12
-          h-12
+          w-9
+          h-9
 
-          rounded-xl
+          rounded-lg
 
           bg-gradient-to-br
           from-blue-500
@@ -90,8 +97,8 @@ p-3
             src={logo}
             alt="Klima Logo"
             className="
-            w-12
-            h-12
+            w-9
+            h-9
             object-contain
             "
           />
@@ -132,20 +139,21 @@ p-3
         {menuItems.map((item) => (
           <button
             key={item.id}
-            onClick={() => setActiveSection(item.id)}
+            onClick={() => setActiveSection(item.section || item.id)}
             className={`
   flex
   items-center
 
   ${collapsed ? "justify-center" : "gap-3"}
 
-  px-4
+  px-3
   py-3
 
-  rounded-xl
+  rounded-2xl
   transition
+  text-sm
 
-  ${activeSection === item.id ? "bg-blue-500" : "hover:bg-white/10"}
+  ${activeSection === item.id ? "bg-blue-500/70 shadow-lg shadow-blue-950/40" : "text-slate-200 hover:bg-white/10"}
 `}
           >
             <span

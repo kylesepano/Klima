@@ -9,8 +9,10 @@ export default function LocationButton() {
     <button
       onClick={getLocation}
       className="
-    p-2
-    rounded-xl
+    h-11
+    w-11
+    shrink-0
+    rounded-full
     glass
     hover:bg-white/10
     transition

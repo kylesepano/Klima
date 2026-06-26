@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 
 import { addRecentSearch } from "../../utils/storage";
@@ -69,10 +67,8 @@ function FlyToLocation({ location }) {
   return null;
 }
 
-export default function MapPanel() {
+export default function MapPanel({ layer = "clouds_new" }) {
   const location = useWeatherStore((state) => state.location);
-
-  const [layer, setLayer] = useState("clouds_new");
 
   const currentLocation = location || {
     lat: 14.5995,
@@ -87,62 +83,8 @@ export default function MapPanel() {
     h-full
     "
     >
-      {/* Layer Selector */}
-      {/* <div className="flex flex-wrap gap-2 p-4 border-b border-white/10">
-        <button
-          onClick={() =>
-            setLayer(
-              "clouds_new"
-            )
-          }
-          className={`
-px-3 py-2 rounded-lg transition
-
-${layer === "clouds_new"
-              ? "bg-blue-500 text-white"
-              : "glass"
-            }
-`}
-        >
-          Clouds
-        </button>
-
-        <button
-          onClick={() =>
-            setLayer(
-              "precipitation_new"
-            )
-          }
-          className="px-3 py-2 rounded-lg glass"
-        >
-          Rain
-        </button>
-
-        <button
-          onClick={() =>
-            setLayer(
-              "temp_new"
-            )
-          }
-          className="px-3 py-2 rounded-lg glass"
-        >
-          Temperature
-        </button>
-
-        <button
-          onClick={() =>
-            setLayer(
-              "wind_new"
-            )
-          }
-          className="px-3 py-2 rounded-lg glass"
-        >
-          Wind
-        </button>
-      </div> */}
-
       {/* Map */}
-      <div className="h-[450px]">
+      <div className="h-full">
         <MapContainer
           center={[
             currentLocation?.lat || 1.3521,

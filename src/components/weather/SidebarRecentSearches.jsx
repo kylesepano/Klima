@@ -1,3 +1,5 @@
+import { MapPin } from "lucide-react";
+
 import { useWeatherStore } from "../../store/weatherStore";
 
 export default function SidebarRecentSearches({
@@ -5,33 +7,20 @@ export default function SidebarRecentSearches({
   setActiveSection,
 }) {
   const recentSearches = useWeatherStore((state) => state.recentSearches);
-
   const setLocation = useWeatherStore((state) => state.setLocation);
 
   if (!recentSearches || recentSearches.length === 0) return null;
 
   return (
-    <div
-      className="
-      mt-6
-      "
-    >
-      <h3
-        className="
-        text-xs
-        uppercase
-        tracking-wider
-        text-slate-400
-        mb-3
-        "
-      >
+    <div className="mt-6 border-t border-white/10 pt-5">
+      <h3 className="mb-3 text-xs uppercase tracking-wider text-slate-400">
         Recent Searches
       </h3>
 
       <div className="space-y-2">
         {recentSearches.map((city, index) => (
           <button
-            key={index}
+            key={`${city.city}-${city.country}-${index}`}
             onClick={() => {
               setLocation(city);
               if (window.innerWidth < 768) {
@@ -39,23 +28,12 @@ export default function SidebarRecentSearches({
               }
               setActiveSection?.("dashboard");
             }}
-            className="
-              w-full
-              text-left
-
-              px-3
-              py-2
-
-              rounded-lg
-
-              hover:bg-white/10
-
-              transition
-
-              text-sm
-              "
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-xs text-slate-200 transition hover:bg-white/10"
           >
-            📍 {city.city}, {city.country}
+            <MapPin size={14} className="shrink-0 text-violet-300" />
+            <span className="truncate">
+              {city.city}, {city.country}
+            </span>
           </button>
         ))}
       </div>

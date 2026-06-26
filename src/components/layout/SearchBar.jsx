@@ -4,7 +4,7 @@ import { useWeatherStore } from "../../store/weatherStore";
 
 import { addRecentSearch } from "../../utils/storage";
 
-import { Crosshair } from "lucide-react";
+import { Search } from "lucide-react";
 
 export default function SearchBar() {
   const query = useWeatherStore((state) => state.searchQuery);
@@ -57,20 +57,29 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="relative pl-6">
+    <div className="relative w-full">
       <input
         type="text"
         value={query}
         onChange={(e) => handleInput(e.target.value)}
-        placeholder="Search city..."
+        placeholder="Search for a city..."
         className="
           w-full
           glass
-          px-4
           py-3
-          rounded-xl
+          pl-4
+          pr-11
+          rounded-full
           outline-none
+          text-sm
+          text-white
+          placeholder:text-slate-400
         "
+      />
+
+      <Search
+        size={18}
+        className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-300"
       />
 
       {query.length > 0 && searchResults.length > 0 && (
@@ -105,6 +114,7 @@ export default function SearchBar() {
                     hover:bg-white/10
 
                     transition
+                    w-full
                   "
             >
               {city.name}
